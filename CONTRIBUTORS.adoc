@@ -1,0 +1,16 @@
+= sirloin-jvmlibs Contributors
+Sirloin Dev
+// Metadata:
+:description: sirloin-jvmlibs
+:keywords: java, kotlin, jvm
+// Settings:
+:doctype: book
+:toc: left
+:toclevels: 4
+:sectlinks:
+:icons: font
+
+[[contributors]]
+== Contributors
+
+We proudly introduce the people we would like to thank for their contributions to this software.

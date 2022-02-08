@@ -1,0 +1,3 @@
+version "1.0.0"
+
+apply from: "${project.rootDir}/gradle/scripts/mavenPublishing.gradle"

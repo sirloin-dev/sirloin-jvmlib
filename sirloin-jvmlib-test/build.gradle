@@ -1,0 +1,9 @@
+version "1.0.0"
+
+apply from: "${project.rootDir}/gradle/scripts/mavenPublishing.gradle"
+
+dependencies {
+    // JUnit5
+    implementation "org.junit.jupiter:junit-jupiter-api:$version_junit5"
+    implementation "org.junit.jupiter:junit-jupiter-params:$version_junit5"
+}

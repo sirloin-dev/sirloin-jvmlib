@@ -1,0 +1,22 @@
+#!/usr/bin/env sh
+
+echo "Publishing sirloin-jvmlib-annotation..."
+./gradlew :sirloin-jvmlib-annotation:publishToMavenLocal
+
+echo "Publishing sirloin-jvmlib-crypto..."
+./gradlew :sirloin-jvmlib-crypto:publishToMavenLocal
+
+echo "Publishing sirloin-jvmlib-net..."
+./gradlew :sirloin-jvmlib-net:publishToMavenLocal
+
+echo "Publishing sirloin-jvmlib-text..."
+./gradlew :sirloin-jvmlib-text:publishToMavenLocal
+
+echo "Publishing sirloin-jvmlib-time..."
+./gradlew :sirloin-jvmlib-time:publishToMavenLocal
+
+echo "Publishing sirloin-jvmlib-util..."
+./gradlew :sirloin-jvmlib-util:publishToMavenLocal
+
+echo "Publishing sirloin-jvmlib-test..."
+./gradlew :sirloin-jvmlib-test:publishToMavenLocal

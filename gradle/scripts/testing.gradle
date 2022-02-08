@@ -1,0 +1,61 @@
+import org.gradle.api.tasks.testing.logging.TestExceptionFormat
+import org.gradle.api.tasks.testing.logging.TestLogEvent
+
+dependencies {
+    // JUnit5
+    testImplementation "org.junit.jupiter:junit-jupiter-api:$version_junit5"
+    testImplementation "org.junit.jupiter:junit-jupiter-params:$version_junit5"
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$version_junit5"
+
+    // Test utilities
+    testImplementation "org.hamcrest:hamcrest:$version_hamcrest"
+    testImplementation "org.mockito:mockito-core:$version_mockito"
+    testImplementation "org.mockito.kotlin:mockito-kotlin:$version_mockitoKotlin"
+}
+
+check.dependsOn test
+
+configurations {
+    testArtifacts.extendsFrom testRuntime
+}
+
+task testJar(type: Jar) {
+    archiveClassifier = "test"
+    from sourceSets.test.output
+}
+
+artifacts {
+    testArtifacts testJar
+}
+
+test {
+    useJUnitPlatform()
+
+    testLogging {
+        events TestLogEvent.PASSED, TestLogEvent.SKIPPED, TestLogEvent.FAILED, TestLogEvent.STANDARD_OUT, TestLogEvent.STANDARD_ERROR
+
+        outputs.upToDateWhen { false }
+        exceptionFormat TestExceptionFormat.FULL
+        showExceptions true
+        showCauses true
+        showStackTraces true
+    }
+}
+
+// https://docs.gradle.org/current/userguide/java_testing.html#test_reporting
+configurations {
+    testReportData {
+        canBeResolved = true
+        canBeConsumed = false
+        attributes {
+            attribute(Category.CATEGORY_ATTRIBUTE, objects.named(Category, Category.DOCUMENTATION))
+            attribute(DocsType.DOCS_TYPE_ATTRIBUTE, objects.named(DocsType, 'test-report-data'))
+        }
+    }
+}
+
+tasks.register('testReport', TestReport) {
+    destinationDir = layout.buildDirectory.dir('reports/allTests').get().asFile
+    // Use test results from testReportData configuration
+    testResultDirs.from(configurations.testReportData)
+}

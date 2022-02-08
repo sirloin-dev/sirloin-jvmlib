@@ -1,0 +1,56 @@
+buildscript {
+    ext {
+        // lang
+        version_target_jvm = 17
+        version_kotlin = "1.6.10"
+        version_javax_validation = "2.0.1.Final"
+        version_javax_inject = "1"
+        version_jsr305 = "3.0.2"
+
+        // Testing & Code quality
+        version_junit5 = "5.8.2"
+        version_detekt = "1.19.0"
+        version_jacoco = "0.8.7"
+        version_hamcrest = "2.2"
+        version_mockito = "4.0.0"
+        version_mockitoKotlin = "4.0.0"
+    }
+
+    repositories {
+        mavenCentral()
+        maven { url "https://plugins.gradle.org/m2/" }
+    }
+
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$version_kotlin"
+
+        // Testing & Code quality
+        classpath "io.gitlab.arturbosch.detekt:detekt-gradle-plugin:$version_detekt"
+    }
+}
+
+allprojects {
+    group "com.sirloin.jvmlib"
+
+    apply plugin: "idea"
+
+    apply from: "$rootDir/gradle/scripts/java.gradle"
+    apply from: "$rootDir/gradle/scripts/kotlin.gradle"
+    apply from: "$rootDir/gradle/scripts/detekt.gradle"
+    apply from: "$rootDir/gradle/scripts/testing.gradle"
+    apply from: "$rootDir/gradle/scripts/jacoco.gradle"
+
+    repositories {
+        mavenLocal()
+        mavenCentral()
+    }
+
+    jar {
+        enabled = true
+    }
+
+    dependencies {
+        // JSR 305: Annotations for Software Defect Detection
+        compileOnly "com.google.code.findbugs:jsr305:$version_jsr305"
+    }
+}

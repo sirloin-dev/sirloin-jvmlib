@@ -1,0 +1,123 @@
+= sirloin-jvmlib
+Sirloin Dev
+// Metadata:
+:description: sirloin-jvmlib
+:keywords: java, kotlin, jvm
+// Settings:
+:doctype: book
+:toc: left
+:toclevels: 4
+:sectlinks:
+:icons: font
+
+[[overview]]
+== Overview
+
+Collection of JVM library logic that the Sirloin software development team is currently using.
+
+[[requirements]]
+== Requirements
+
+- Kotlin 1.5.31
+- OpenJDK 17 or compatible
+
+[[installation]]
+== Installation
+
+[[installation-gradle]]
+=== Gradle
+
+. Add jitpack.io maven repository
++
+[source,groovy]
+----
+allprojects {
+  repositories {
+    // ...
+    maven { url 'https://jitpack.io' }
+  }
+}
+----
+
+. Declare dependencies
++
+[source,groovy]
+----
+dependencies {
+  implementation "com.github.sirloin-dev.sirloin-jvmlib:sirloin-jvmlib-annotation:1.0.0"
+  implementation "com.github.sirloin-dev.sirloin-jvmlib:sirloin-jvmlib-crypto:1.0.0"
+  implementation "com.github.sirloin-dev.sirloin-jvmlib:sirloin-jvmlib-net:1.0.0"
+  implementation "com.github.sirloin-dev.sirloin-jvmlib:sirloin-jvmlib-text:1.0.0"
+  implementation "com.github.sirloin-dev.sirloin-jvmlib:sirloin-jvmlib-time:1.0.0"
+  implementation "com.github.sirloin-dev.sirloin-jvmlib:sirloin-jvmlib-util:1.0.0"
+
+  // Test helpers: Better not to include this as main dependency
+  testImplementation "com.github.sirloin-dev.sirloin-jvmlib:sirloin-jvmlib-test:1.0.0"
+}
+----
+
+[[installation-maven]]
+=== Maven
+
+. Add jitpack.io maven repository
++
+[source,xml]
+----
+<repositories>
+  <repository>
+    <id>jitpack.io</id>
+      <url>https://jitpack.io</url>
+  </repository>
+</repositories>
+----
+
+. Declare dependencies
++
+[source,xml]
+----
+<dependencies>
+  <dependency>
+    <groupId>com.github.sirloin-dev.sirloin-jvmlib</groupId>
+    <artifactId>sirloin-jvmlib-annotation</artifactId>
+    <version>1.0.0</version>
+  </dependency>
+
+  <dependency>
+    <groupId>com.github.sirloin-dev.sirloin-jvmlib</groupId>
+    <artifactId>sirloin-jvmlib-crypto</artifactId>
+    <version>1.0.0</version>
+  </dependency>
+
+  <dependency>
+    <groupId>com.github.sirloin-dev.sirloin-jvmlib</groupId>
+    <artifactId>sirloin-jvmlib-net</artifactId>
+    <version>1.0.0</version>
+  </dependency>
+
+  <dependency>
+    <groupId>com.github.sirloin-dev.sirloin-jvmlib</groupId>
+    <artifactId>sirloin-jvmlib-text</artifactId>
+    <version>1.0.0</version>
+  </dependency>
+
+  <dependency>
+    <groupId>com.github.sirloin-dev.sirloin-jvmlib</groupId>
+    <artifactId>sirloin-jvmlib-time</artifactId>
+    <version>1.0.0</version>
+  </dependency>
+
+  <dependency>
+    <groupId>com.github.sirloin-dev.sirloin-jvmlib</groupId>
+    <artifactId>sirloin-jvmlib-util</artifactId>
+    <version>1.0.0</version>
+  </dependency>
+
+  <!-- Test helpers: Better not to include this as main dependency -->
+  <dependency>
+    <groupId>com.github.sirloin-dev.sirloin-jvmlib</groupId>
+    <artifactId></artifactId>
+    <version>1.0.0</version>
+    <scope>test</scope>
+  </dependency>
+</dependencies>
+----

@@ -1,0 +1,9 @@
+rootProject.name = "com.sirloin.jvmlib"
+
+include ":sirloin-jvmlib-annotation",
+        ":sirloin-jvmlib-crypto",
+        ":sirloin-jvmlib-net",
+        ":sirloin-jvmlib-test",
+        ":sirloin-jvmlib-text",
+        ":sirloin-jvmlib-time",
+        ":sirloin-jvmlib-util"

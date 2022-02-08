@@ -1,0 +1,19 @@
+apply plugin: "maven-publish"
+//apply plugin: "signing"
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            groupId = group
+            version = project.version
+            artifactId = project.name
+
+            from components.java
+            artifact sourcesJar
+        }
+    }
+}
+
+//signing {
+//    sign publishing.publications.maven
+//}
