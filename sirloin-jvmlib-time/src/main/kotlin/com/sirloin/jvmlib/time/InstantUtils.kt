@@ -12,5 +12,5 @@ import java.time.temporal.ChronoUnit
  *
  * @since 2022-02-14
  */
-fun Instant?.truncateToSeconds(): Instant? =
-    this?.truncatedTo(ChronoUnit.SECONDS)
+fun Instant.truncateToSeconds(): Instant =
+    this.truncatedTo(ChronoUnit.SECONDS)
