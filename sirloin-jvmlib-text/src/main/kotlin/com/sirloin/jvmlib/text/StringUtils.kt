@@ -4,6 +4,7 @@
  */
 package com.sirloin.jvmlib.text
 
+import java.util.*
 import java.util.regex.Pattern
 
 /*
@@ -64,3 +65,12 @@ fun String?.isNullOrUnicodeBlank(): Boolean {
  * @since 2022-02-14
  */
 fun String.matchesIn(pattern: Pattern) = pattern.matcher(this).matches()
+
+/**
+ * Converts given byte array to hex-encoded string.
+ *
+ * Requires JDK 17.
+ *
+ * @since 2022-04-01
+ */
+fun ByteArray.toHexString() = HexFormat.of().formatHex(this)
