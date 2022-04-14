@@ -1,10 +1,10 @@
 package testcase.small
 
-import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.CoreMatchers.both
+import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.MatcherAssert.assertThat
-import org.hamcrest.Matchers.greaterThan
-import org.hamcrest.Matchers.lessThan
+import org.hamcrest.Matchers.greaterThanOrEqualTo
+import org.hamcrest.Matchers.lessThanOrEqualTo
 import org.hamcrest.text.IsEmptyString.emptyString
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -50,6 +50,6 @@ class StringUtilsTest {
         val chars = randomFillChars('.', min, max)
 
         // expect:
-        assertThat(chars.length, `is`(both(greaterThan(min)).and(lessThan(max))))
+        assertThat(chars.length, `is`(both(greaterThanOrEqualTo(min)).and(lessThanOrEqualTo(max))))
     }
 }
