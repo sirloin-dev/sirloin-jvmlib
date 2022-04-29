@@ -1,4 +1,4 @@
-version "1.0.5"
+version "1.1.0"
 
 apply from: "${project.rootDir}/gradle/scripts/mavenPublishing.gradle"
 
@@ -7,5 +7,8 @@ dependencies {
      * For Emoji processing. CAVEAT: This library installs org.json:json:20170516 artifact
      * for building emoji Trie from its internal database.
      */
-    api "com.vdurmont:emoji-java:5.1.1"
+    implementation("com.vdurmont:emoji-java:5.1.1") {
+        exclude group: "org.json", module: "json"
+    }
+    implementation "org.json:json:20220320"
 }
