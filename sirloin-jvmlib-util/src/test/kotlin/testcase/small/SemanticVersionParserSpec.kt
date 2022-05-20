@@ -76,7 +76,8 @@ class SemanticVersionParserSpec {
             Arguments.of("8.66.a"),
             Arguments.of("abcde"),
             Arguments.of("a.b.c"),
-            Arguments.of("1.2.1.1-a")
+            Arguments.of("1.2.1.1-a"),
+            Arguments.of("1.2.1-+")
         )
     }
 
