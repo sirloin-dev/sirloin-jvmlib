@@ -1,6 +1,15 @@
 package com.sirloin.jvmlib.util
-
+/* * sirloin-jvmlib
+* Distributed under MIT licence
+*/
 data class SemanticVersion(
+    /**
+     * A semantic version definition and implementation.
+     *
+     * [More documentation](https://semver.org/)
+     *
+     * @since 2022-05-20
+     */
     val major: Int,
     val minor: Int,
     val patch: Int,

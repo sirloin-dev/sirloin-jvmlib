@@ -1,18 +1,22 @@
 package testcase.small
-
+/* * sirloin-jvmlib
+* Distributed under MIT licence
+*/
 import com.sirloin.jvmlib.util.SemanticVersionParser
 import org.hamcrest.MatcherAssert.assertThat
+import org.hamcrest.Matchers.nullValue
 import org.hamcrest.core.Is.`is`
-import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.RepeatedTest
-import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertAll
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.Arguments
+import org.junit.jupiter.params.provider.MethodSource
+import java.util.stream.Stream
 import kotlin.random.Random
 
 class SemanticVersionParserSpec {
-    @DisplayName("정규식과 일치하는 Semantic Version은 parse에 성공한다. ")
     @RepeatedTest(100)
-    fun parseSemanticVersion() {
+    fun `Parses to Semantic Version if given string conforms in Semantic Version Pattern`() {
         val major = Random.nextInt(0, Int.MAX_VALUE)
         val minor = Random.nextInt(0, Int.MAX_VALUE)
         val patch = Random.nextInt(0, Int.MAX_VALUE)
@@ -32,29 +36,16 @@ class SemanticVersionParserSpec {
         )
     }
 
-    @DisplayName("정규식과 일치하지 않는 Semantic Version은 null을 반환한다. ")
-    @Test
-    fun parseSemanticVersionByStrangeSemVer() {
-        val allFalseResult = listOf(
-            "12.3",
-            "1.43",
-            "145",
-            "a.6.7",
-            "6.a.4",
-            "8.66.a",
-            "abcde",
-            "a.b.c",
-            "1.1.1.1"
-        ).all {
-            !SemanticVersionParser.isMatchesToSemanticVersion(it)
-        }
+    @ParameterizedTest
+    @MethodSource("invalidSemanticVersion")
+    fun `Parses to null if given string does not conforms in Semantic Version Pattern`(invalidSemanticVersion: String) {
+        val semanticVersion = SemanticVersionParser.toSemanticVersion(invalidSemanticVersion)
 
-        assertThat(allFalseResult, `is`(true))
+        assertThat(semanticVersion, `is`(nullValue()))
     }
 
-    @DisplayName("정규식과 Semantic Version 규격이 정확히 일치한다.")
     @RepeatedTest(100)
-    fun validateSemVerSpec() {
+    fun `Returns true if given string conforms in Semantic Version Pattern`() {
         val major = Random.nextInt(0, Int.MAX_VALUE)
         val minor = Random.nextInt(0, Int.MAX_VALUE)
         val patch = Random.nextInt(0, Int.MAX_VALUE)
@@ -64,6 +55,29 @@ class SemanticVersionParserSpec {
             SemanticVersionParser.isMatchesToSemanticVersion("${major}.${minor}.${patch}-${preRelease}+${build}")
 
         assertThat(result, `is`(true))
+    }
+
+    @ParameterizedTest
+    @MethodSource("invalidSemanticVersion")
+    fun `Parses to false if given string does not conforms in Semantic Version Pattern`(invalidSemanticVersion: String) {
+        val isValidSemVer = SemanticVersionParser.isMatchesToSemanticVersion(invalidSemanticVersion)
+
+        assertThat(isValidSemVer, `is`(false))
+    }
+
+    companion object {
+        @JvmStatic
+        fun invalidSemanticVersion(): Stream<Arguments> = Stream.of(
+            Arguments.of("12.3"),
+            Arguments.of("1.43"),
+            Arguments.of("145"),
+            Arguments.of("a.6.7"),
+            Arguments.of("6.a.4"),
+            Arguments.of("8.66.a"),
+            Arguments.of("abcde"),
+            Arguments.of("a.b.c"),
+            Arguments.of("1.2.1.1-a")
+        )
     }
 
 }
