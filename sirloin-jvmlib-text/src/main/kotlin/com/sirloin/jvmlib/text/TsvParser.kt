@@ -4,7 +4,12 @@
  */
 package com.sirloin.jvmlib.text
 
-import java.io.*
+import java.io.BufferedReader
+import java.io.File
+import java.io.FileInputStream
+import java.io.InputStream
+import java.io.InputStreamReader
+import java.io.IOException
 import java.lang.Integer.max
 
 internal const val NO_CONTENT_IN_STREAM = "No content in given TSV InputStream."
