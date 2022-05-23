@@ -1,7 +1,9 @@
+/*
+ * sirloin-jvmlib
+ * Distributed under MIT licence
+ */
 package testcase.small
-/* * sirloin-jvmlib
-* Distributed under MIT licence
-*/
+
 import com.sirloin.jvmlib.util.SemanticVersionParser
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.nullValue
