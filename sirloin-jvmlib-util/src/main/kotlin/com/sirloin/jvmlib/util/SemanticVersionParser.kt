@@ -16,9 +16,9 @@ object SemanticVersionParser {
                 "(?:-((?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\\.(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?" +
                 "(?:\\+([0-9a-zA-Z-_]+(?:\\.[0-9a-zA-Z-]+)*))?$"
 
-    fun toSemanticVersion(semVer: String): SemanticVersion? =
+    fun toSemanticVersion(semVer: String?): SemanticVersion? =
         Regex(PATTERN_SEMVER)
-            .matchEntire(semVer)?.destructured?.let { (major, minor, patch, preRelease, build) ->
+            .matchEntire(semVer ?: "")?.destructured?.let { (major, minor, patch, preRelease, build) ->
                 SemanticVersion(
                     major = major.toInt(),
                     minor = minor.toInt(),
@@ -28,8 +28,8 @@ object SemanticVersionParser {
                 )
             }
 
-    fun isMatchesToSemanticVersion(semVer: String): Boolean =
+    fun isMatchesToSemanticVersion(semVer: String?): Boolean =
         Regex(PATTERN_SEMVER)
-            .matches(semVer)
+            .matches(semVer ?: "")
 }
 
