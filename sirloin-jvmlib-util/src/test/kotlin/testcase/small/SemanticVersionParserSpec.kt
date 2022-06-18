@@ -9,6 +9,7 @@ import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.nullValue
 import org.hamcrest.core.Is.`is`
 import org.junit.jupiter.api.RepeatedTest
+import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertAll
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
@@ -17,11 +18,13 @@ import java.util.stream.Stream
 import kotlin.random.Random
 
 class SemanticVersionParserSpec {
-    @RepeatedTest(100)
+    @Test
     fun `Parses to Semantic Version if given string conforms in Semantic Version Pattern`() {
-        val major = Random.nextInt(0, Int.MAX_VALUE)
-        val minor = Random.nextInt(0, Int.MAX_VALUE)
-        val patch = Random.nextInt(0, Int.MAX_VALUE)
+        val (major, minor, patch) = Triple(
+            Random.nextInt(0, Int.MAX_VALUE),
+            Random.nextInt(0, Int.MAX_VALUE),
+            Random.nextInt(0, Int.MAX_VALUE)
+        )
         val preRelease = "abcde"
         val build = "abcde"
         val semanticVersion =
@@ -46,11 +49,13 @@ class SemanticVersionParserSpec {
         assertThat(semanticVersion, `is`(nullValue()))
     }
 
-    @RepeatedTest(100)
+    @Test
     fun `Returns true if given string conforms in Semantic Version Pattern`() {
-        val major = Random.nextInt(0, Int.MAX_VALUE)
-        val minor = Random.nextInt(0, Int.MAX_VALUE)
-        val patch = Random.nextInt(0, Int.MAX_VALUE)
+        val (major, minor, patch) = Triple(
+            Random.nextInt(0, Int.MAX_VALUE),
+            Random.nextInt(0, Int.MAX_VALUE),
+            Random.nextInt(0, Int.MAX_VALUE)
+        )
         val preRelease = "abcde"
         val build = "abcde"
         val result =
@@ -82,5 +87,4 @@ class SemanticVersionParserSpec {
             Arguments.of("1.2.1-+")
         )
     }
-
 }
