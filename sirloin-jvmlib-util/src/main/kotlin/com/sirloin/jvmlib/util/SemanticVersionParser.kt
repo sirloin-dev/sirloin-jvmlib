@@ -29,7 +29,5 @@ object SemanticVersionParser {
             }
 
     fun isMatchesToSemanticVersion(semVer: String?): Boolean =
-        Regex(PATTERN_SEMVER)
-            .matches(semVer ?: "")
+        Regex(PATTERN_SEMVER).matches(semVer ?: "")
 }
-
