@@ -11,7 +11,7 @@ package com.sirloin.jvmlib.util
  */
 // https://semver.org/#is-there-a-suggested-regular-expression-regex-to-check-a-semver-string
 object SemanticVersionParser {
-    private const val PATTERN_SEMVER =
+    const val PATTERN_SEMVER =
         "^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)" +
                 "(?:-((?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\\.(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?" +
                 "(?:\\+([0-9a-zA-Z-_]+(?:\\.[0-9a-zA-Z-]+)*))?$"
