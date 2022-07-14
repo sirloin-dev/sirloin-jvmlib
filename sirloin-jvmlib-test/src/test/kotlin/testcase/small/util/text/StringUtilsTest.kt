@@ -1,4 +1,4 @@
-package testcase.small
+package testcase.small.util.text
 
 import org.hamcrest.CoreMatchers.both
 import org.hamcrest.CoreMatchers.`is`
