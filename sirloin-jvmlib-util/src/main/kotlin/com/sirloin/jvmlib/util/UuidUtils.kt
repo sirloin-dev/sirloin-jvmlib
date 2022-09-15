@@ -22,6 +22,8 @@ const val REGEX_UUID = "$REGEX_HEXADECIMAL{8}-" +
         "[89AaBb]$REGEX_HEXADECIMAL{3}-" +
         "$REGEX_HEXADECIMAL{12}"
 
+fun UUID?.isNullOrEmpty(): Boolean = this == null || this == EMPTY_UUID
+
 /**
  * Converts [UUID] to byte array representation. For example:
  *
