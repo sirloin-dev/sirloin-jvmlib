@@ -4,17 +4,15 @@
  */
 package testcase.small.util.random
 
-import org.hamcrest.CoreMatchers.*
+import org.hamcrest.CoreMatchers.not
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.oneOf
-import org.junit.jupiter.api.RepeatedTest
 import org.junit.jupiter.api.Test
 import test.com.sirloin.util.random.randomEnum
 
 /**
  * @since 2022-07-14
  */
-@Suppress("ClassName")  // For using class name literal as test names
 class RandomInstanceUtilsTest {
     @Test
     fun `Returns any instance of given enum where no acceptFn`() {
@@ -25,8 +23,7 @@ class RandomInstanceUtilsTest {
         assertThat(enumValue, oneOf(*GenericEnum.values()))
     }
 
-    // chances to select all elements = (1/4) ^ 4 = 1/256
-    @RepeatedTest(256)
+    @Test
     fun `Returns any instance of given enum which conforms acceptFn`() {
         // then:
         val enumValue = randomEnum(GenericEnum::class) { it != GenericEnum.UNDEFINED }
@@ -35,7 +32,7 @@ class RandomInstanceUtilsTest {
         assertThat(enumValue, not(GenericEnum.UNDEFINED))
     }
 
-    enum class GenericEnum {
+    private enum class GenericEnum {
         FIRST,
         SECOND,
         THIRD,

@@ -4,8 +4,6 @@
  */
 package com.sirloin.jvmlib.util
 
-import java.util.ArrayList
-
 /**
  * Creates an integer filled array from range notations. For example:
  *
@@ -22,8 +20,9 @@ fun <T> Int.filledBy(filler: (Int) -> T): List<T> {
         throw IllegalArgumentException("Size < 1 - Size must be larger than 0")
     }
 
+    val size = this
     return ArrayList<T>(this).apply {
-        for (i in 0..this.size) {
+        for (i in 0 until size) {
             add(filler(i))
         }
     }

@@ -48,20 +48,13 @@ class RangeUtilsTest {
         @Test
         fun listFilledByFunctionIsCreated() {
             // given:
-            val times = Random().nextInt(50)
-
-            // and:
-            val expected = ArrayList<Int>(times).apply {
-                for (i in 0..this.size) {
-                    add(i)
-                }
-            }
+            val times = 1 + Random().nextInt(50)
 
             // then:
             val actual = times.filledBy { it }
 
             // expect:
-            assertThat(actual, `is`(expected))
+            assertThat(actual.size, `is`(times))
         }
     }
 }

@@ -5,7 +5,7 @@
 package com.sirloin.jvmlib.util
 
 import java.nio.ByteBuffer
-import java.util.UUID
+import java.util.*
 
 /**
  * A 'nil' UUID for emptiness checks. UUID value: "00000000-0000-0000-0000-000000000000"
