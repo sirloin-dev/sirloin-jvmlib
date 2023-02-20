@@ -44,15 +44,17 @@ allprojects {
 [source,groovy]
 ----
 dependencies {
-  implementation "com.github.sirloin-dev.sirloin-jvmlib:sirloin-jvmlib-annotation:1.0.0"
-  implementation "com.github.sirloin-dev.sirloin-jvmlib:sirloin-jvmlib-crypto:1.0.0"
-  implementation "com.github.sirloin-dev.sirloin-jvmlib:sirloin-jvmlib-net:1.0.0"
-  implementation "com.github.sirloin-dev.sirloin-jvmlib:sirloin-jvmlib-text:1.0.0"
-  implementation "com.github.sirloin-dev.sirloin-jvmlib:sirloin-jvmlib-time:1.0.0"
-  implementation "com.github.sirloin-dev.sirloin-jvmlib:sirloin-jvmlib-util:1.0.0"
+  def libSirloinJvmLib = "1.2.3"
+
+  implementation "com.github.sirloin-dev.sirloin-jvmlib:sirloin-jvmlib-annotation:$libSirloinJvmLib"
+  implementation "com.github.sirloin-dev.sirloin-jvmlib:sirloin-jvmlib-crypto:$libSirloinJvmLib"
+  implementation "com.github.sirloin-dev.sirloin-jvmlib:sirloin-jvmlib-net:$libSirloinJvmLib"
+  implementation "com.github.sirloin-dev.sirloin-jvmlib:sirloin-jvmlib-text:$libSirloinJvmLib"
+  implementation "com.github.sirloin-dev.sirloin-jvmlib:sirloin-jvmlib-time:$libSirloinJvmLib"
+  implementation "com.github.sirloin-dev.sirloin-jvmlib:sirloin-jvmlib-util:$libSirloinJvmLib"
 
   // Test helpers: Better not to include this as main dependency
-  testImplementation "com.github.sirloin-dev.sirloin-jvmlib:sirloin-jvmlib-test:1.0.0"
+  testImplementation "com.github.sirloin-dev.sirloin-jvmlib:sirloin-jvmlib-test:$libSirloinJvmLib"
 }
 ----
 
@@ -79,44 +81,44 @@ dependencies {
   <dependency>
     <groupId>com.github.sirloin-dev.sirloin-jvmlib</groupId>
     <artifactId>sirloin-jvmlib-annotation</artifactId>
-    <version>1.0.0</version>
+    <version>1.2.3</version>
   </dependency>
 
   <dependency>
     <groupId>com.github.sirloin-dev.sirloin-jvmlib</groupId>
     <artifactId>sirloin-jvmlib-crypto</artifactId>
-    <version>1.0.0</version>
+    <version>1.2.3</version>
   </dependency>
 
   <dependency>
     <groupId>com.github.sirloin-dev.sirloin-jvmlib</groupId>
     <artifactId>sirloin-jvmlib-net</artifactId>
-    <version>1.0.0</version>
+    <version>1.2.3</version>
   </dependency>
 
   <dependency>
     <groupId>com.github.sirloin-dev.sirloin-jvmlib</groupId>
     <artifactId>sirloin-jvmlib-text</artifactId>
-    <version>1.0.0</version>
+    <version>1.2.3</version>
   </dependency>
 
   <dependency>
     <groupId>com.github.sirloin-dev.sirloin-jvmlib</groupId>
     <artifactId>sirloin-jvmlib-time</artifactId>
-    <version>1.0.0</version>
+    <version>1.2.3</version>
   </dependency>
 
   <dependency>
     <groupId>com.github.sirloin-dev.sirloin-jvmlib</groupId>
     <artifactId>sirloin-jvmlib-util</artifactId>
-    <version>1.0.0</version>
+    <version>1.2.3</version>
   </dependency>
 
   <!-- Test helpers: Better not to include this as main dependency -->
   <dependency>
     <groupId>com.github.sirloin-dev.sirloin-jvmlib</groupId>
-    <artifactId></artifactId>
-    <version>1.0.0</version>
+    <artifactId>sirloin-jvmlib-test</artifactId>
+    <version>1.2.3</version>
     <scope>test</scope>
   </dependency>
 </dependencies>
