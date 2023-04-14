@@ -12,3 +12,17 @@ package com.sirloin.jvmlib.util
  * Structural changes in the base list make the behaviour of the view undefined.
  */
 fun <T> List<T>.subList(startIndex: Int): List<T> = subList(startIndex, this.size)
+
+/**
+ * The [singleOrNull] function of Kotlin standard library returns null if given receiver Collection is not single.
+ * This leniency is not suitable for some cases - for example, when users want to get a single element or `null`,
+ * but does not expect to get multiple elements.
+ *
+ * This function is a strict version of [singleOrNull] that throws [IllegalArgumentException]
+ * if given receiver Collection is not empty or single.
+ */
+fun <T> Collection<T>.assertSingleOrNull(): T? = when (size) {
+    0 -> null
+    1 -> this.first()
+    else -> throw IllegalArgumentException("Collection size is $size, but expected 0 or 1.")
+}

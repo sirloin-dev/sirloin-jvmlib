@@ -4,10 +4,16 @@
  */
 package testcase.small
 
+import com.sirloin.jvmlib.util.assertSingleOrNull
 import com.sirloin.jvmlib.util.subList
 import org.hamcrest.CoreMatchers.`is`
+import org.hamcrest.CoreMatchers.not
+import org.hamcrest.CoreMatchers.nullValue
 import org.hamcrest.MatcherAssert.assertThat
+import org.junit.jupiter.api.DisplayName
+import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 import kotlin.random.Random
 
 /**
@@ -28,5 +34,47 @@ class CollectionUtilsTest {
 
         // expect:
         assertThat(actual.size, `is`(times - chopIndex))
+    }
+
+    @DisplayName("assertSingleOrNull should:")
+    @Nested
+    inner class WhenAssertSingleOrNull {
+        @DisplayName("return null if given receiver Collection is empty")
+        @Test
+        fun returnNull() {
+            // given:
+            val emptyList = emptyList<Int>()
+
+            // when:
+            val actual = emptyList.assertSingleOrNull()
+
+            // then:
+            assertThat(actual, `is`(nullValue()))
+        }
+
+        @DisplayName("return single element if given receiver Collection is single")
+        @Test
+        fun returnSingle() {
+            // given:
+            val emptyList = listOf(Random.nextInt())
+
+            // when:
+            val actual = emptyList.assertSingleOrNull()
+
+            // then:
+            assertThat(actual, not(nullValue()))
+        }
+
+        @DisplayName("throw IllegalArgumentException if given receiver Collection is multiple")
+        @Test
+        fun throwException() {
+            // given:
+            val emptyList = listOf(Random.nextInt(), Random.nextInt())
+
+            // expect:
+            assertThrows<IllegalArgumentException> {
+                emptyList.assertSingleOrNull()
+            }
+        }
     }
 }
