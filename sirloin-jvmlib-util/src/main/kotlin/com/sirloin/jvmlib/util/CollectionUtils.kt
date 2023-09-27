@@ -4,6 +4,10 @@
  */
 package com.sirloin.jvmlib.util
 
+import kotlin.collections.Iterable
+import kotlin.collections.shuffled
+import kotlin.collections.take
+
 /**
  * Returns a view of the portion of this list between the specified [startIndex] and continues to the end of the list.
  * The returned list is shallow-copied of receiver List, so non-structural changes in the returned list
@@ -26,3 +30,9 @@ fun <T> Collection<T>.assertSingleOrNull(): T? = when (size) {
     1 -> this.first()
     else -> throw IllegalArgumentException("Collection size is $size, but expected 0 or 1.")
 }
+
+/**
+ * Inspired by [sampleSize](https://github.com/lodash/lodash/blob/main/src/sampleSize.ts) of lodash.
+ * Syntactic sugar for [Iterable.shuffled] and [Iterable.take].
+ */
+fun <T> Iterable<T>.sample(size: Int = 1): List<T> = this.shuffled().take(size)

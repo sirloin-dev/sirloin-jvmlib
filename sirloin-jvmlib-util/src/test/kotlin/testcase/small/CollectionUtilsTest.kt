@@ -5,11 +5,14 @@
 package testcase.small
 
 import com.sirloin.jvmlib.util.assertSingleOrNull
+import com.sirloin.jvmlib.util.sample
 import com.sirloin.jvmlib.util.subList
 import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.CoreMatchers.not
 import org.hamcrest.CoreMatchers.nullValue
 import org.hamcrest.MatcherAssert.assertThat
+import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -75,6 +78,44 @@ class CollectionUtilsTest {
             assertThrows<IllegalArgumentException> {
                 emptyList.assertSingleOrNull()
             }
+        }
+    }
+
+    @DisplayName("sample should:")
+    @Nested
+    inner class WhenAssertSample {
+        private val iterable = ArrayList<Int>()
+
+        @BeforeEach
+        fun setUp() {
+            val times = 3 + Random.nextInt(10)
+            iterable.addAll(IntArray(times) { it }.toList())
+        }
+
+        @AfterEach
+        fun tearDown() {
+            iterable.clear()
+        }
+
+        @Test
+        fun `return a list of random elements on given Iterable`() {
+            // given:
+            val sampleSize = Random.nextInt(iterable.size)
+
+            // then:
+            val actual = iterable.sample(sampleSize)
+
+            // expect:
+            assertThat(actual.size, `is`(sampleSize))
+        }
+
+        @Test
+        fun `contain elements of the original Iterable`() {
+            // then:
+            val actual = iterable.sample(iterable.size)
+
+            // expect:
+            assertThat(actual.sorted(), `is`(iterable.sorted()))
         }
     }
 }
