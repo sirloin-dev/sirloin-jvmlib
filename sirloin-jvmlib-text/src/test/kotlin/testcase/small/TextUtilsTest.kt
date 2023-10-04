@@ -4,9 +4,20 @@
  */
 package testcase.small
 
+import com.sirloin.jvmlib.text.randomAlphanumeric
 import com.sirloin.jvmlib.text.toCharArray
+import org.hamcrest.CoreMatchers
+import org.hamcrest.CoreMatchers.both
 import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.MatcherAssert.assertThat
+import org.hamcrest.Matchers
+import org.hamcrest.Matchers.greaterThanOrEqualTo
+import org.hamcrest.Matchers.lessThanOrEqualTo
+import org.hamcrest.text.IsEmptyString
+import org.junit.jupiter.api.DisplayName
+import org.junit.jupiter.api.Nested
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
@@ -27,6 +38,47 @@ class TextUtilsTest {
 
         // expect:
         assertThat(actual, `is`(expected))
+    }
+
+    @DisplayName("randomAlphaNumeric should:")
+    @Nested
+    inner class RandomAlphaNumeric {
+        @Test
+        fun `raises exception if min is less than 0`() {
+            assertThrows<IllegalArgumentException> { randomAlphanumeric(min = -1) }
+        }
+
+        @Test
+        fun `raises exception if max is less than 0`() {
+            assertThrows<IllegalArgumentException> { randomAlphanumeric(min = 0, max = -1) }
+        }
+
+        @Test
+        fun `raises exception if max is less than min`() {
+            assertThrows<IllegalArgumentException> { randomAlphanumeric(min = 1, max = 0) }
+        }
+
+        @Test
+        fun `returns empty string if min is 0`() {
+            // when:
+            val result = randomAlphanumeric(0, 0)
+
+            // expect:
+            assertThat(result, `is`(""))
+        }
+
+        @Test
+        fun `returns filled String if sufficient range is given`() {
+            // given:
+            val min = 0
+            val max = 32
+
+            // when:
+            val chars = randomAlphanumeric(min, max)
+
+            // expect:
+            assertThat(chars.length, `is`(both(greaterThanOrEqualTo(min)).and(lessThanOrEqualTo(max))))
+        }
     }
 
     companion object {

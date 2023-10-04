@@ -5,6 +5,8 @@
 package test.com.sirloin.util.text
 
 import java.util.*
+import kotlin.math.abs
+import kotlin.random.Random
 
 /**
  * Constructs a random length of String snippet filled with [fillChar]. Length of created String is
@@ -34,4 +36,27 @@ fun randomFillChars(fillChar: Char, min: Int = 0, max: Int = 32): String {
     return String(CharArray(length).apply {
         Arrays.fill(this, fillChar)
     })
+}
+
+fun randomNumeral(
+    from: Int = 0,
+    until: Int = 9,
+    digits: Int = 0
+): String {
+    val realDigits = until.toString().length
+    val padStart = digits > realDigits
+
+    return Random.nextInt(from, until).let {
+        val numerals = it.toString()
+
+        return@let if (padStart) {
+            if (it < 0) {
+                "-${abs(it).toString().padStart(digits, '0')}"
+            } else {
+                numerals.padStart(digits, '0')
+            }
+        } else {
+            numerals
+        }
+    }
 }

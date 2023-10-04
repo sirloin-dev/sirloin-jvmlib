@@ -6,10 +6,14 @@ import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.greaterThanOrEqualTo
 import org.hamcrest.Matchers.lessThanOrEqualTo
 import org.hamcrest.text.IsEmptyString.emptyString
+import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
+import org.junit.jupiter.api.RepeatedTest
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertAll
 import org.junit.jupiter.api.assertThrows
 import test.com.sirloin.util.text.randomFillChars
+import test.com.sirloin.util.text.randomNumeral
 
 @Suppress("ClassName")  // For using class name literal as test names
 class StringUtilsTest {
@@ -51,5 +55,77 @@ class StringUtilsTest {
 
         // expect:
         assertThat(chars.length, `is`(both(greaterThanOrEqualTo(min)).and(lessThanOrEqualTo(max))))
+    }
+
+    @DisplayName("randomNumeral should:")
+    @Nested
+    inner class RandomNumeral {
+        @DisplayName("pad start with '0' while option is given, and if number is smaller than 'digits':")
+        @Nested
+        inner class PadStartWithZeros {
+            @Test
+            fun `padded with zeros with positive random number`() {
+                // given:
+                val digits = 5
+
+                // when:
+                val result = randomNumeral(from = 0, until = 9, digits = digits)
+
+                // expect:
+                assertAll(
+                    { assertThat(result.length, `is`(digits)) },
+                    { assertThat(result.startsWith("0000"), `is`(true)) }
+                )
+            }
+
+            @Test
+            fun `padded with zeros with negative random number`() {
+                // given:
+                val digits = 5
+
+                // when:
+                val result = randomNumeral(from = -9, until = 0, digits = digits)
+
+                // expect:
+                assertAll(
+                    { assertThat(result.length, `is`(digits + 1)) },
+                    { assertThat(result.startsWith("-0000"), `is`(true)) }
+                )
+            }
+        }
+
+        @DisplayName("Returns non-padded random-lengthed numerals")
+        @Nested
+        inner class ReturnsRandomLengthNumerals {
+            @Test
+            fun `of positive number`() {
+                // given:
+                val digits = 5
+
+                // when: "99999 is in 5 digits"
+                val result = randomNumeral(from = 0, until = 99999)
+
+                // then:
+                assertAll(
+                    { assertThat(result.length, `is`(both(greaterThanOrEqualTo(0)).and(lessThanOrEqualTo(digits)))) },
+                    { assertThat(result.startsWith("0"), `is`(false)) }
+                )
+            }
+
+            @RepeatedTest(100)
+            fun `of negative number`() {
+                // given:
+                val digits = 5
+
+                // when: "-99999 is in 5 digits"
+                val result = randomNumeral(from = -99999, until = 0)
+
+                // then:
+                assertAll(
+                    { assertThat(result.length, `is`(both(greaterThanOrEqualTo(2)).and(lessThanOrEqualTo(digits + 1)))) },
+                    { assertThat(result.startsWith("-0"), `is`(false)) }
+                )
+            }
+        }
     }
 }
