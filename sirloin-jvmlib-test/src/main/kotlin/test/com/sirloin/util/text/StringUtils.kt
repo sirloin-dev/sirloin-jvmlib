@@ -38,15 +38,21 @@ fun randomFillChars(fillChar: Char, min: Int = 0, max: Int = 32): String {
     })
 }
 
+/**
+ * Gets the next random decimal String literal from the random number generator in the specified range -
+ * [from] (inclusive) and [until] (exclusive) bounds.
+ *
+ * @throws IllegalArgumentException if [from] is greater than or equal to [until].
+ */
 fun randomNumeral(
-    from: Int = 0,
-    until: Int = 9,
+    from: Long = 0,
+    until: Long = 9,
     digits: Int = 0
 ): String {
     val realDigits = until.toString().length
-    val padStart = digits > realDigits
+    val padStart = digits >= realDigits
 
-    return Random.nextInt(from, until).let {
+    return Random.nextLong(from, until).let {
         val numerals = it.toString()
 
         return@let if (padStart) {

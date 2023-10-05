@@ -12,8 +12,12 @@ import org.junit.jupiter.api.RepeatedTest
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertAll
 import org.junit.jupiter.api.assertThrows
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.Arguments
+import org.junit.jupiter.params.provider.MethodSource
 import test.com.sirloin.util.text.randomFillChars
 import test.com.sirloin.util.text.randomNumeral
+import java.util.stream.Stream
 
 @Suppress("ClassName")  // For using class name literal as test names
 class StringUtilsTest {
@@ -63,6 +67,21 @@ class StringUtilsTest {
         @DisplayName("pad start with '0' while option is given, and if number is smaller than 'digits':")
         @Nested
         inner class PadStartWithZeros {
+            @ParameterizedTest(name = "from: {0}, until: {1}, digits: {2}")
+            @MethodSource("testcase.small.util.text.StringUtilsTest#randomNumeralPadStartWithZeros")
+            fun `works as expected on various inputs`(
+                from: Long,
+                until: Long,
+                digits: Int,
+                assertion: (String) -> Unit
+            ) {
+                // when:
+                val result = randomNumeral(from = from, until = until, digits = digits)
+
+                // expect:
+                assertion(result)
+            }
+
             @Test
             fun `padded with zeros with positive random number`() {
                 // given:
@@ -122,10 +141,30 @@ class StringUtilsTest {
 
                 // then:
                 assertAll(
-                    { assertThat(result.length, `is`(both(greaterThanOrEqualTo(2)).and(lessThanOrEqualTo(digits + 1)))) },
+                    {
+                        assertThat(
+                            result.length,
+                            `is`(both(greaterThanOrEqualTo(2)).and(lessThanOrEqualTo(digits + 1)))
+                        )
+                    },
                     { assertThat(result.startsWith("-0"), `is`(false)) }
                 )
             }
         }
+    }
+
+    companion object {
+        @JvmStatic
+        fun randomNumeralPadStartWithZeros(): Stream<Arguments> = Stream.of(
+            // from, until, digits, assertion
+            Arguments.of(1, 10, 2, { it: String ->
+                assertThat(it.length, `is`(2))
+                assertThat(it.startsWith("0"), `is`(true))
+            }),
+            Arguments.of(1, 100, 3, { it: String ->
+                assertThat(it.length, `is`(3))
+                assertThat(it.startsWith("0"), `is`(true))
+            })
+        )
     }
 }
