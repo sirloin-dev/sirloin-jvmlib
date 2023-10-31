@@ -1,7 +1,7 @@
 buildscript {
     ext {
         // version export settings
-        dist_version = "1.2.11"
+        dist_version = "1.2.11-fix1"
 
         // lang
         version_target_jvm = 17

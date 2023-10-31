@@ -161,8 +161,14 @@ internal class FastCollectedLruCacheImpl<K : Any, V>(
         companion object {
             fun <T> create(data: T, expireMilliseconds: Long): CachedEntry<T> {
                 val now = System.currentTimeMillis()
-                // Handles overflow for impractical values, and below zero cases.
-                val expireAt = (now + expireMilliseconds).let {
+
+                val expireAt1 = if (expireMilliseconds < 1L) {
+                    Long.MAX_VALUE
+                } else {
+                    now + expireMilliseconds
+                }
+
+                val expireAt2 = expireAt1.let {
                     if (it < 1) {
                         Long.MAX_VALUE
                     } else {
@@ -170,7 +176,7 @@ internal class FastCollectedLruCacheImpl<K : Any, V>(
                     }
                 }
 
-                return CachedEntry(data, expireAt)
+                return CachedEntry(data, expireAt2)
             }
         }
     }
