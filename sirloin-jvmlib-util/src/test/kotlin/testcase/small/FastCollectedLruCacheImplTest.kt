@@ -6,6 +6,7 @@ package testcase.small
 
 import com.sirloin.jvmlib.util.FastCollectedLruCacheImpl
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
@@ -21,7 +22,7 @@ class FastCollectedLruCacheImplTest {
 
     @BeforeEach
     fun setup() {
-        this.sut = FastCollectedLruCacheImpl(CACHE_SIZE)
+        this.sut = FastCollectedLruCacheImpl(CACHE_SIZE, Long.MAX_VALUE)
     }
 
     @Test
@@ -52,6 +53,60 @@ class FastCollectedLruCacheImplTest {
         // then:
         assertNull(sut.softCache["Num_1"])
         assertTrue(sut.hardCache.containsKey("Num_1"))
+    }
+
+    @Test
+    fun `data matches with key is gone from soft and hard cache after remove`() {
+        // given:
+        val key = "testKey"
+
+        // when:
+        sut.put(key, "testValue")
+
+        // and:
+        assertNotNull(sut.get(key))
+
+        // then:
+        sut.remove(key)
+
+        // expect:
+        assertNull(sut.get(key))
+    }
+
+    @Test
+    fun `all data in soft and hard cache are gone after clear`() {
+        // given:
+        for (i in 1..CACHE_SIZE) {
+            sut.put("Num_$i", i)
+        }
+
+        // then:
+        sut.clear()
+
+        // expect:
+        assertTrue(sut.hardCache.isEmpty())
+        assertTrue(sut.softCache.isEmpty())
+    }
+
+    @Test
+    fun `expired data is ignored and removed even if it is resides in hard cache`() {
+        // given:
+        val key = "testKey"
+
+        // when:
+        sut.put(key, "testValue")
+
+        // and:
+        val cachedData = sut.hardCache[key]
+
+        // then:
+        assertNotNull(cachedData)
+
+        // and: "Force expire data in cache with key"
+        cachedData!!.expireAt = 0L
+
+        // expect:
+        assertNull(sut.get(key))
     }
 
     companion object {
