@@ -5,7 +5,7 @@ buildscript {
 
         // lang
         version_target_jvm = 17
-        version_kotlin = "1.6.10"
+        version_kotlin = "1.8.0"
         version_javax_validation = "2.0.1.Final"
         version_jsr305 = "3.0.2"
 
@@ -13,7 +13,7 @@ buildscript {
         version_junit5 = "5.9.0"
         version_detekt = "1.19.0"
         version_jacoco = "0.8.7"
-        version_hamcrest = "2.2"
+        version_kotest = "5.7.2"
         version_mockito = "4.0.0"
         version_mockitoKotlin = "4.0.0"
     }

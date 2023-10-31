@@ -6,14 +6,8 @@ package testcase.small
 
 import com.sirloin.jvmlib.text.randomAlphanumeric
 import com.sirloin.jvmlib.text.toCharArray
-import org.hamcrest.CoreMatchers
-import org.hamcrest.CoreMatchers.both
-import org.hamcrest.CoreMatchers.`is`
-import org.hamcrest.MatcherAssert.assertThat
-import org.hamcrest.Matchers
-import org.hamcrest.Matchers.greaterThanOrEqualTo
-import org.hamcrest.Matchers.lessThanOrEqualTo
-import org.hamcrest.text.IsEmptyString
+import io.kotest.matchers.ints.shouldBeInRange
+import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -26,7 +20,7 @@ import java.util.stream.Stream
 /**
  * @since 2022-04-14
  */
-class TextUtilsTest {
+internal class TextUtilsTest {
     @MethodSource("toCharArrayArgs")
     @ParameterizedTest(name = "CharSequence.toCharArray returns CharArray that contains same content")
     fun `CharSequence#toCharArray returns CharArray that contains same content`(
@@ -37,7 +31,7 @@ class TextUtilsTest {
         val actual = input.toCharArray()
 
         // expect:
-        assertThat(actual, `is`(expected))
+        actual shouldBe expected
     }
 
     @DisplayName("randomAlphaNumeric should:")
@@ -64,7 +58,7 @@ class TextUtilsTest {
             val result = randomAlphanumeric(0, 0)
 
             // expect:
-            assertThat(result, `is`(""))
+            result shouldBe ""
         }
 
         @Test
@@ -77,7 +71,7 @@ class TextUtilsTest {
             val chars = randomAlphanumeric(min, max)
 
             // expect:
-            assertThat(chars.length, `is`(both(greaterThanOrEqualTo(min)).and(lessThanOrEqualTo(max))))
+            chars.length shouldBeInRange min..max
         }
     }
 

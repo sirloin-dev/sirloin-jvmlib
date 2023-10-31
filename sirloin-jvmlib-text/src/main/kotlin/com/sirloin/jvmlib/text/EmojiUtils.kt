@@ -6,7 +6,6 @@ package com.sirloin.jvmlib.text
 
 import com.vdurmont.emoji.EmojiParser
 import java.text.BreakIterator
-import java.util.*
 
 /**
  * Counts actual [Unicode Grapheme count](https://unicode.org/reports/tr29/#Grapheme_Cluster_Boundaries)

@@ -1,11 +1,11 @@
+/*
+ * com.sirloin.jvmlib
+ * Sir.LOIN Intellectual property. All rights reserved.
+ */
 package testcase.small.util.text
 
-import org.hamcrest.CoreMatchers.both
-import org.hamcrest.CoreMatchers.`is`
-import org.hamcrest.MatcherAssert.assertThat
-import org.hamcrest.Matchers.greaterThanOrEqualTo
-import org.hamcrest.Matchers.lessThanOrEqualTo
-import org.hamcrest.text.IsEmptyString.emptyString
+import io.kotest.matchers.ints.shouldBeInRange
+import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.RepeatedTest
@@ -19,8 +19,11 @@ import test.com.sirloin.util.text.randomFillChars
 import test.com.sirloin.util.text.randomNumeral
 import java.util.stream.Stream
 
+/**
+ * @since 2022-02-08
+ */
 @Suppress("ClassName")  // For using class name literal as test names
-class StringUtilsTest {
+internal class StringUtilsTest {
     @Nested
     inner class `Exception is raised if` {
         @Test
@@ -45,7 +48,7 @@ class StringUtilsTest {
         val chars = randomFillChars('.', 0, 0)
 
         // expect:
-        assertThat(chars, `is`(emptyString()))
+        chars.length shouldBe 0
     }
 
     @Test
@@ -58,7 +61,7 @@ class StringUtilsTest {
         val chars = randomFillChars('.', min, max)
 
         // expect:
-        assertThat(chars.length, `is`(both(greaterThanOrEqualTo(min)).and(lessThanOrEqualTo(max))))
+        chars.length shouldBeInRange min..max
     }
 
     @DisplayName("randomNumeral should:")
@@ -92,8 +95,8 @@ class StringUtilsTest {
 
                 // expect:
                 assertAll(
-                    { assertThat(result.length, `is`(digits)) },
-                    { assertThat(result.startsWith("0000"), `is`(true)) }
+                    { result.length shouldBe digits },
+                    { result.startsWith("0000") shouldBe true }
                 )
             }
 
@@ -107,8 +110,8 @@ class StringUtilsTest {
 
                 // expect:
                 assertAll(
-                    { assertThat(result.length, `is`(digits + 1)) },
-                    { assertThat(result.startsWith("-0000"), `is`(true)) }
+                    { result.length shouldBe (digits + 1) },
+                    { result.startsWith("-0000") shouldBe true }
                 )
             }
         }
@@ -126,8 +129,8 @@ class StringUtilsTest {
 
                 // then:
                 assertAll(
-                    { assertThat(result.length, `is`(both(greaterThanOrEqualTo(0)).and(lessThanOrEqualTo(digits)))) },
-                    { assertThat(result.startsWith("0"), `is`(false)) }
+                    { result.length shouldBeInRange 0..digits },
+                    { result.startsWith("0") shouldBe false }
                 )
             }
 
@@ -141,13 +144,8 @@ class StringUtilsTest {
 
                 // then:
                 assertAll(
-                    {
-                        assertThat(
-                            result.length,
-                            `is`(both(greaterThanOrEqualTo(2)).and(lessThanOrEqualTo(digits + 1)))
-                        )
-                    },
-                    { assertThat(result.startsWith("-0"), `is`(false)) }
+                    { result.length shouldBeInRange 2..(digits+1) },
+                    { result.startsWith("-0") shouldBe false }
                 )
             }
         }
@@ -158,12 +156,16 @@ class StringUtilsTest {
         fun randomNumeralPadStartWithZeros(): Stream<Arguments> = Stream.of(
             // from, until, digits, assertion
             Arguments.of(1, 10, 2, { it: String ->
-                assertThat(it.length, `is`(2))
-                assertThat(it.startsWith("0"), `is`(true))
+                assertAll(
+                    { it.length shouldBe 2 },
+                    { it.startsWith("0") shouldBe true }
+                )
             }),
             Arguments.of(1, 100, 3, { it: String ->
-                assertThat(it.length, `is`(3))
-                assertThat(it.startsWith("0"), `is`(true))
+                assertAll(
+                    { it.length shouldBe 3 },
+                    { it.startsWith("0") shouldBe true }
+                )
             })
         )
     }

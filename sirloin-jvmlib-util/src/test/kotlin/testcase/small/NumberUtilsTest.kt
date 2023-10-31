@@ -5,8 +5,7 @@
 package testcase.small
 
 import com.sirloin.jvmlib.util.isIntegerValue
-import org.hamcrest.MatcherAssert.assertThat
-import org.hamcrest.Matchers.`is`
+import io.kotest.matchers.shouldBe
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
@@ -17,7 +16,7 @@ import java.util.stream.Stream
  * @author Francesco Jo(nimbusob@gmail.com)
  * @since 2022-10-12
  */
-class NumberUtilsTest {
+internal class NumberUtilsTest {
     @ParameterizedTest(name = "BigDecimal#isIntegerValue returns correct values as expected for inputs")
     @MethodSource("BigDecimal_isIntegerValueInputs")
     fun `BigDecimal#isIntegerValue returns correct values as expected for inputs`(
@@ -30,7 +29,7 @@ class NumberUtilsTest {
         val actual = number.isIntegerValue()
 
         // expect:
-        assertThat(actual, `is`(expected))
+        actual shouldBe expected
     }
 
     companion object {

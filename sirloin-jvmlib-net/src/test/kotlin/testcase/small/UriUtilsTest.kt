@@ -5,15 +5,17 @@
 package testcase.small
 
 import com.sirloin.jvmlib.net.pathSegments
-import org.hamcrest.MatcherAssert.assertThat
-import org.hamcrest.Matchers.`is`
+import io.kotest.matchers.shouldBe
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
 import java.net.URI
 import java.util.stream.Stream
 
-class UriUtilsTest {
+/**
+ * @since 2022-02-08
+ */
+internal class UriUtilsTest {
     @ParameterizedTest(name = "\"{0}\" is separated into: {1}")
     @MethodSource("testSplitPathSegments")
     fun `Uris with slash will be separated correctly`(uriStr: String, expected: List<String>) {
@@ -24,7 +26,7 @@ class UriUtilsTest {
         val actual = uri.pathSegments()
 
         // then:
-        assertThat(actual, `is`(expected))
+        actual shouldBe expected
     }
 
     companion object {

@@ -5,17 +5,20 @@
 package testcase.small
 
 import com.sirloin.jvmlib.text.unicodeGraphemeCount
-import org.junit.jupiter.api.Assertions
+import io.kotest.matchers.shouldBe
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
 import java.util.stream.Stream
 
-class EmojiUtilsTest {
+/**
+ * @since 2022-02-08
+ */
+internal class EmojiUtilsTest {
     @ParameterizedTest(name = "\"{1}\" glyph count must be: {0}")
     @MethodSource("testUnicodeGraphemeCountArgs")
     fun `unicodeGraphemeCount for various inputs`(length: Int, charSeq: String) {
-        Assertions.assertEquals(length, charSeq.unicodeGraphemeCount())
+        length shouldBe charSeq.unicodeGraphemeCount()
     }
 
     companion object {

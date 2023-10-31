@@ -5,9 +5,7 @@
 package testcase.small
 
 import com.sirloin.jvmlib.util.SemanticVersionParser
-import org.hamcrest.MatcherAssert.assertThat
-import org.hamcrest.Matchers.nullValue
-import org.hamcrest.core.Is.`is`
+import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertAll
 import org.junit.jupiter.params.ParameterizedTest
@@ -16,9 +14,13 @@ import org.junit.jupiter.params.provider.MethodSource
 import java.util.stream.Stream
 import kotlin.random.Random
 
-class SemanticVersionParserSpec {
+/**
+ * @since 2022-05-23
+ */
+internal class SemanticVersionParserSpec {
     @Test
     fun `Parses to Semantic Version if given string conforms in Semantic Version Pattern`() {
+        // given:
         val (major, minor, patch) = Triple(
             Random.nextInt(0, Int.MAX_VALUE),
             Random.nextInt(0, Int.MAX_VALUE),
@@ -26,30 +28,34 @@ class SemanticVersionParserSpec {
         )
         val preRelease = "abcde"
         val build = "abcde"
+
+        // when:
         val semanticVersion =
             SemanticVersionParser.toSemanticVersion("${major}.${minor}.${patch}-${preRelease}+${build}")!!
 
+        // expect:
         assertAll(
-            {
-                assertThat(semanticVersion.major, `is`(major))
-                assertThat(semanticVersion.minor, `is`(minor))
-                assertThat(semanticVersion.patch, `is`(patch))
-                assertThat(semanticVersion.preRelease, `is`(preRelease))
-                assertThat(semanticVersion.build, `is`(build))
-            }
+            { semanticVersion.major shouldBe major },
+            { semanticVersion.minor shouldBe minor },
+            { semanticVersion.patch shouldBe patch },
+            { semanticVersion.preRelease shouldBe preRelease },
+            { semanticVersion.build shouldBe build }
         )
     }
 
     @ParameterizedTest
     @MethodSource("invalidSemanticVersion")
     fun `Parses to null if given string does not conforms in Semantic Version Pattern`(invalidSemanticVersion: String) {
+        // given:
         val semanticVersion = SemanticVersionParser.toSemanticVersion(invalidSemanticVersion)
 
-        assertThat(semanticVersion, `is`(nullValue()))
+        // expect:
+        semanticVersion shouldBe null
     }
 
     @Test
     fun `Returns true if given string conforms in Semantic Version Pattern`() {
+        // given:
         val (major, minor, patch) = Triple(
             Random.nextInt(0, Int.MAX_VALUE),
             Random.nextInt(0, Int.MAX_VALUE),
@@ -57,18 +63,23 @@ class SemanticVersionParserSpec {
         )
         val preRelease = "abcde"
         val build = "abcde"
+
+        // when:
         val result =
             SemanticVersionParser.isMatchesToSemanticVersion("${major}.${minor}.${patch}-${preRelease}+${build}")
 
-        assertThat(result, `is`(true))
+        // expect:
+        result shouldBe true
     }
 
     @ParameterizedTest
     @MethodSource("invalidSemanticVersion")
     fun `Parses to false if given string does not conforms in Semantic Version Pattern`(invalidSemanticVersion: String) {
+        // given:
         val isValidSemVer = SemanticVersionParser.isMatchesToSemanticVersion(invalidSemanticVersion)
 
-        assertThat(isValidSemVer, `is`(false))
+        // expect:
+        isValidSemVer shouldBe false
     }
 
     companion object {

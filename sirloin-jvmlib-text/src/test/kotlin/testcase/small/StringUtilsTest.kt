@@ -6,30 +6,36 @@ package testcase.small
 
 import com.sirloin.jvmlib.text.isNullOrUnicodeBlank
 import com.sirloin.jvmlib.text.matchesIn
-import org.junit.jupiter.api.Assertions.assertEquals
+import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertAll
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
 import java.util.regex.Pattern
 import java.util.stream.Stream
 
-class StringUtilsTest {
+/**
+ * @since 2022-02-08
+ */
+internal class StringUtilsTest {
     @Test
     fun `isUnicodeBlank yields expected result upon given input`() {
         val withInput: (String) -> Boolean = { it.isNullOrUnicodeBlank() }
 
-        assertEquals(true, withInput(""))
-        assertEquals(true, withInput("   "))
-        assertEquals(false, withInput(" a "))
-        assertEquals(false, withInput("\u3000 a \u3000"))
-        assertEquals(true, withInput("\u3000\u3000"))
+        assertAll(
+            { withInput("") shouldBe true },
+            { withInput("   ") shouldBe true },
+            { withInput(" a ") shouldBe false },
+            { withInput("\u3000 a \u3000") shouldBe false },
+            { withInput("\u3000\u3000") shouldBe true }
+        )
     }
 
     @ParameterizedTest(name = "\"{0}\".matchesIn(\"{1}\") ==> ''{2}''")
     @MethodSource("matchesInTestArgsProvider")
     fun `matchesIn test for various inputs`(str: String, pattern: Pattern, expected: Boolean) {
-        assertEquals(expected, str.matchesIn(pattern))
+        str.matchesIn(pattern) shouldBe expected
     }
 
     companion object {

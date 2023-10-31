@@ -6,12 +6,15 @@ package testcase.small
 
 import com.sirloin.jvmlib.util.toByteArray
 import com.sirloin.jvmlib.util.toUUID
-import org.junit.jupiter.api.Assertions.assertEquals
+import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import java.util.*
 
-class UuidUtilsTest {
+/**
+ * @since 2022-02-08
+ */
+internal class UuidUtilsTest {
     @Test
     fun `UUID to byteArray length must be 16`() {
         // given:
@@ -21,7 +24,7 @@ class UuidUtilsTest {
         val actual = uuid.toByteArray()
 
         // then:
-        assertEquals(16, actual.size)
+        actual.size shouldBe 16
     }
 
     @Test
@@ -32,9 +35,7 @@ class UuidUtilsTest {
         }
 
         // expect:
-        assertThrows<IllegalArgumentException> {
-            randomBytes.toUUID()
-        }
+        assertThrows<IllegalArgumentException> { randomBytes.toUUID() }
     }
 
     @Test
@@ -49,6 +50,6 @@ class UuidUtilsTest {
         val actual = array.toUUID()
 
         // expect:
-        assertEquals(expected, actual)
+        actual shouldBe expected
     }
 }

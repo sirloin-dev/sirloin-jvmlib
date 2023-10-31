@@ -5,19 +5,18 @@
 package testcase.small
 
 import com.sirloin.jvmlib.util.FastCollectedLruCacheImpl
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertNotNull
-import org.junit.jupiter.api.Assertions.assertNull
-import org.junit.jupiter.api.Assertions.assertTrue
+import io.kotest.matchers.shouldBe
+import io.kotest.matchers.shouldNotBe
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertAll
 import kotlin.math.roundToInt
 
 /**
  * @author Francesco Jo(nimbusob@gmail.com)
  * @since 23 - Nov - 2018
  */
-class FastCollectedLruCacheImplTest {
+internal class FastCollectedLruCacheImplTest {
     private lateinit var sut: FastCollectedLruCacheImpl<String, Any>
 
     @BeforeEach
@@ -34,10 +33,12 @@ class FastCollectedLruCacheImplTest {
         }
 
         // then:
-        assertEquals((CACHE_SIZE * 0.75f).roundToInt(), sut.hardCache.size)
-        assertNull(sut.hardCache["Num_1"])
-        assertNull(sut.hardCache["Num_2"])
-        assertEquals(expectedSoftCacheSize, sut.softCache.size)
+        assertAll(
+            { (CACHE_SIZE * 0.75f).roundToInt() shouldBe sut.hardCache.size },
+            { sut.hardCache["Num_1"] shouldBe null },
+            { sut.hardCache["Num_2"] shouldBe null },
+            { expectedSoftCacheSize shouldBe sut.softCache.size }
+        )
     }
 
     @Test
@@ -51,8 +52,10 @@ class FastCollectedLruCacheImplTest {
         sut.get("Num_1")
 
         // then:
-        assertNull(sut.softCache["Num_1"])
-        assertTrue(sut.hardCache.containsKey("Num_1"))
+        assertAll(
+            { sut.softCache["Num_1"] shouldBe null },
+            { sut.hardCache.containsKey("Num_1") shouldBe true }
+        )
     }
 
     @Test
@@ -64,13 +67,13 @@ class FastCollectedLruCacheImplTest {
         sut.put(key, "testValue")
 
         // and:
-        assertNotNull(sut.get(key))
+        sut.get(key) shouldNotBe null
 
         // then:
         sut.remove(key)
 
         // expect:
-        assertNull(sut.get(key))
+        sut.get(key) shouldBe null
     }
 
     @Test
@@ -84,8 +87,10 @@ class FastCollectedLruCacheImplTest {
         sut.clear()
 
         // expect:
-        assertTrue(sut.hardCache.isEmpty())
-        assertTrue(sut.softCache.isEmpty())
+        assertAll(
+            { sut.hardCache.isEmpty() shouldBe true },
+            { sut.softCache.isEmpty() shouldBe true }
+        )
     }
 
     @Test
@@ -100,13 +105,13 @@ class FastCollectedLruCacheImplTest {
         val cachedData = sut.hardCache[key]
 
         // then:
-        assertNotNull(cachedData)
+        cachedData shouldNotBe null
 
         // and: "Force expire data in cache with key"
         cachedData!!.expireAt = 0L
 
         // expect:
-        assertNull(sut.get(key))
+        sut.get(key) shouldBe null
     }
 
     companion object {

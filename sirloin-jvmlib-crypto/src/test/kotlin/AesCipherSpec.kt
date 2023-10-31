@@ -3,8 +3,7 @@
  * Distributed under MIT licence
  */
 import com.sirloin.jvmlib.crypto.AesCipher
-import org.hamcrest.CoreMatchers.`is`
-import org.hamcrest.MatcherAssert.assertThat
+import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.assertAll
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
@@ -15,7 +14,7 @@ import kotlin.random.Random
 /**
  * @since 2022-04-13
  */
-class AesCipherSpec {
+internal class AesCipherSpec {
     @Suppress("UNUSED_PARAMETER")   // For displaying test name
     @ParameterizedTest(name = "It should decrypt encrypted message by {0} algorithm with arbitrary key and iv")
     @MethodSource("aesKeyAndIv")
@@ -39,10 +38,10 @@ class AesCipherSpec {
             /*
              * For AES128 the block cipher size is 16 bytes(128 bits),
              * and for AES256 the block cipher size is 32 bytes(256 bits).
-             * Also, the plaintext is 20 bytes long, therefore result is 32 bytes(256 bits) in both cases.
+             * Also, the plaintext is 20 bytes long - therefore, the result is 32 bytes(256 bits) in both cases.
              */
-            { assertThat(encrypted.size, `is`(32)) },
-            { assertThat(decryptedText, `is`(plainText)) }
+            { encrypted.size shouldBe 32 },
+            { decryptedText shouldBe plainText }
         )
     }
 

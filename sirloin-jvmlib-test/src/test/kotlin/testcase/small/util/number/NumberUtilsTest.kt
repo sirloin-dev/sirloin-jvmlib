@@ -4,8 +4,7 @@
  */
 package testcase.small.util.number
 
-import org.hamcrest.MatcherAssert.assertThat
-import org.hamcrest.Matchers.`is`
+import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Test
 import test.com.sirloin.util.number.times
 import test.com.sirloin.util.number.timesOf
@@ -14,7 +13,7 @@ import kotlin.random.Random
 /**
  * @since 2023-02-20
  */
-class NumberUtilsTest {
+internal class NumberUtilsTest {
     @Test
     fun `'times' function runs expression for given n times`() {
         // given:
@@ -27,7 +26,7 @@ class NumberUtilsTest {
         n times { ++repetitions }
 
         // expect:
-        assertThat(repetitions, `is`(n))
+        repetitions shouldBe n
     }
 
     @Test
@@ -39,6 +38,6 @@ class NumberUtilsTest {
         val result = n timesOf { it }
 
         // expect:
-        assertThat(result.size, `is`(n))
+        result.size shouldBe n
     }
 }

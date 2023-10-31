@@ -6,15 +6,18 @@ package testcase.small
 
 import com.sirloin.jvmlib.util.filledBy
 import com.sirloin.jvmlib.util.toArray
-import org.hamcrest.MatcherAssert.assertThat
-import org.hamcrest.Matchers.`is`
+import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertAll
 import org.junit.jupiter.api.assertThrows
 import java.util.*
 
-class RangeUtilsTest {
+/**
+ * @since 2022-02-08
+ */
+internal class RangeUtilsTest {
     @Test
     fun `Integer range could be transformed as series of numbers`() {
         // given:
@@ -25,8 +28,10 @@ class RangeUtilsTest {
         val actual = range.toArray()
 
         // then:
-        assertThat(actual.size, `is`(7))
-        assertThat(actual, `is`(expected))
+        assertAll(
+            { actual.size shouldBe 7 },
+            { actual shouldBe expected }
+        )
     }
 
     @DisplayName("To use filledBy:")
@@ -54,7 +59,7 @@ class RangeUtilsTest {
             val actual = times.filledBy { it }
 
             // expect:
-            assertThat(actual.size, `is`(times))
+            actual.size shouldBe times
         }
     }
 }

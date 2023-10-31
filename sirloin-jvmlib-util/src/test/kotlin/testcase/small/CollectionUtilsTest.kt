@@ -7,10 +7,8 @@ package testcase.small
 import com.sirloin.jvmlib.util.assertSingleOrNull
 import com.sirloin.jvmlib.util.sample
 import com.sirloin.jvmlib.util.subList
-import org.hamcrest.CoreMatchers.`is`
-import org.hamcrest.CoreMatchers.not
-import org.hamcrest.CoreMatchers.nullValue
-import org.hamcrest.MatcherAssert.assertThat
+import io.kotest.matchers.shouldBe
+import io.kotest.matchers.shouldNotBe
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
@@ -22,7 +20,7 @@ import kotlin.random.Random
 /**
  * @since 2023-04-10
  */
-class CollectionUtilsTest {
+internal class CollectionUtilsTest {
     @Test
     fun `single argument taking subList method on List returns a copy of list from given index to end of its size`() {
         // given:
@@ -36,7 +34,7 @@ class CollectionUtilsTest {
         val actual = list.subList(chopIndex)
 
         // expect:
-        assertThat(actual.size, `is`(times - chopIndex))
+        actual.size shouldBe (times - chopIndex)
     }
 
     @DisplayName("assertSingleOrNull should:")
@@ -52,7 +50,7 @@ class CollectionUtilsTest {
             val actual = emptyList.assertSingleOrNull()
 
             // then:
-            assertThat(actual, `is`(nullValue()))
+            actual shouldBe null
         }
 
         @DisplayName("return single element if given receiver Collection is single")
@@ -65,7 +63,7 @@ class CollectionUtilsTest {
             val actual = emptyList.assertSingleOrNull()
 
             // then:
-            assertThat(actual, not(nullValue()))
+            actual shouldNotBe null
         }
 
         @DisplayName("throw IllegalArgumentException if given receiver Collection is multiple")
@@ -75,9 +73,7 @@ class CollectionUtilsTest {
             val emptyList = listOf(Random.nextInt(), Random.nextInt())
 
             // expect:
-            assertThrows<IllegalArgumentException> {
-                emptyList.assertSingleOrNull()
-            }
+            assertThrows<IllegalArgumentException> { emptyList.assertSingleOrNull() }
         }
     }
 
@@ -106,7 +102,7 @@ class CollectionUtilsTest {
             val actual = iterable.sample(sampleSize)
 
             // expect:
-            assertThat(actual.size, `is`(sampleSize))
+            actual.size shouldBe sampleSize
         }
 
         @Test
@@ -115,7 +111,7 @@ class CollectionUtilsTest {
             val actual = iterable.sample(iterable.size)
 
             // expect:
-            assertThat(actual.sorted(), `is`(iterable.sorted()))
+            actual.sorted() shouldBe iterable.sorted()
         }
     }
 }

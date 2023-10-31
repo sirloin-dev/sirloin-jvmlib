@@ -5,14 +5,13 @@
 package testcase.small
 
 import com.sirloin.jvmlib.util.firstOrThrow
-import org.hamcrest.CoreMatchers.`is`
-import org.hamcrest.MatcherAssert.assertThat
+import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Test
 
 /**
  * @since 2022-07-08
  */
-class EnumUtilsTest {
+internal class EnumUtilsTest {
     @Test
     fun `firstOrThrow is exactly same as custom implementation of enum reverse-side lookup function`() {
         // given:
@@ -22,7 +21,7 @@ class EnumUtilsTest {
         val actual = Foo.values().firstOrThrow(Foo::code, "A")
 
         // expect:
-        assertThat(actual, `is`(expected))
+        actual shouldBe expected
     }
 }
 

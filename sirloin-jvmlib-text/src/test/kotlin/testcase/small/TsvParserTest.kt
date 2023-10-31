@@ -7,9 +7,7 @@ package testcase.small
 import com.sirloin.jvmlib.text.DUPLICATED_HEADERS_FOUND
 import com.sirloin.jvmlib.text.NO_CONTENT_IN_STREAM
 import com.sirloin.jvmlib.text.TsvParser
-import org.hamcrest.CoreMatchers.`is`
-import org.hamcrest.CoreMatchers.startsWith
-import org.hamcrest.MatcherAssert.assertThat
+import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertAll
@@ -24,7 +22,7 @@ import java.net.URL
  * @since 2022-05-23
  */
 @Suppress("ClassName")  // For using class name literal as test names
-class TsvParserTest {
+internal class TsvParserTest {
     @Nested
     inner class `Parse without headers` {
         @Test
@@ -41,7 +39,7 @@ class TsvParserTest {
             val parsed = TsvParser.parse(resource)
 
             // expect:
-            assertThat(parsed, `is`(emptyList()))
+            parsed shouldBe emptyList()
         }
 
         @Test
@@ -54,8 +52,8 @@ class TsvParserTest {
 
             // expect:
             assertAll(
-                { assertThat(parsed.size, `is`(1)) },
-                { assertThat(parsed, `is`(listOf(listOf("h1", "h2", "h3")))) }
+                { parsed.size shouldBe 1 },
+                { parsed shouldBe listOf(listOf("h1", "h2", "h3")) }
             )
         }
 
@@ -69,16 +67,17 @@ class TsvParserTest {
 
             // expect:
             assertAll(
-                { assertThat(parsed.size, `is`(6)) },
-                { assertThat(parsed, `is`(listOf(
-                    listOf("h1", "h2", "h3", "h4", null),
-                    listOf("v1", null, null, null, null),
-                    listOf("v2", "v3", null, null, null),
-                    listOf("v4", "v5", "v6", "v7", "v8"),
-                    listOf("", "", "", "", ""),
-                    listOf("v9", null, null, null, null),
-                  ))
-                )}
+                { parsed.size shouldBe 6 },
+                {
+                    parsed shouldBe listOf(
+                        listOf("h1", "h2", "h3", "h4", null),
+                        listOf("v1", null, null, null, null),
+                        listOf("v2", "v3", null, null, null),
+                        listOf("v4", "v5", "v6", "v7", "v8"),
+                        listOf(""  , ""  , ""  , ""  , ""  ),
+                        listOf("v9", null, null, null, null),
+                    )
+                }
             )
         }
     }
@@ -99,7 +98,7 @@ class TsvParserTest {
             }
 
             // expect:
-            assertThat(thrown.message, `is`(NO_CONTENT_IN_STREAM))
+            thrown.message shouldBe NO_CONTENT_IN_STREAM
         }
 
         @Test
@@ -110,7 +109,7 @@ class TsvParserTest {
             }
 
             // expect:
-            assertThat(thrown.message, startsWith(DUPLICATED_HEADERS_FOUND))
+            thrown.message!!.startsWith(DUPLICATED_HEADERS_FOUND) shouldBe true
         }
 
         @Test
@@ -123,15 +122,16 @@ class TsvParserTest {
 
             // expect:
             assertAll(
-                { assertThat(parsed.size, `is`(5)) },
-                { assertThat(parsed, `is`(listOf(
-                    linkedMapOf("h1" to "v1", "h2" to null, "h3" to null, "h4" to null),
-                    linkedMapOf("h1" to "v2", "h2" to "v3", "h3" to null, "h4" to null),
-                    linkedMapOf("h1" to "v4", "h2" to "v5", "h3" to "v6", "h4" to "v7"),
-                    linkedMapOf("h1" to ""  , "h2" to ""  , "h3" to ""  , "h4" to ""),
-                    linkedMapOf("h1" to "v9", "h2" to null, "h3" to null, "h4" to null),
-                  ))
-                )}
+                { parsed.size shouldBe 5 },
+                {
+                    parsed shouldBe listOf(
+                        linkedMapOf("h1" to "v1", "h2" to null, "h3" to null, "h4" to null),
+                        linkedMapOf("h1" to "v2", "h2" to "v3", "h3" to null, "h4" to null),
+                        linkedMapOf("h1" to "v4", "h2" to "v5", "h3" to "v6", "h4" to "v7"),
+                        linkedMapOf("h1" to ""  , "h2" to ""  , "h3" to ""  , "h4" to ""  ),
+                        linkedMapOf("h1" to "v9", "h2" to null, "h3" to null, "h4" to null),
+                    )
+                }
             )
         }
     }

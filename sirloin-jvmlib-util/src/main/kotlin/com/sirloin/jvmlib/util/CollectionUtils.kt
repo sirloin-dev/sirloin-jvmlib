@@ -4,10 +4,6 @@
  */
 package com.sirloin.jvmlib.util
 
-import kotlin.collections.Iterable
-import kotlin.collections.shuffled
-import kotlin.collections.take
-
 /**
  * Returns a view of the portion of this list between the specified [startIndex] and continues to the end of the list.
  * The returned list is shallow-copied of receiver List, so non-structural changes in the returned list

@@ -8,7 +8,7 @@ dependencies {
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$version_junit5"
 
     // Test utilities
-    testImplementation "org.hamcrest:hamcrest:$version_hamcrest"
+    testImplementation "io.kotest:kotest-runner-junit5:$version_kotest"
     testImplementation "org.mockito:mockito-core:$version_mockito"
     testImplementation "org.mockito.kotlin:mockito-kotlin:$version_mockitoKotlin"
 }

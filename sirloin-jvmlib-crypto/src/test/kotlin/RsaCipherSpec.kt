@@ -3,8 +3,7 @@
  * Distributed under MIT licence
  */
 import com.sirloin.jvmlib.crypto.RsaCipher
-import org.hamcrest.CoreMatchers.`is`
-import org.hamcrest.MatcherAssert.assertThat
+import io.kotest.matchers.shouldBe
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.ValueSource
 import java.security.KeyPairGenerator
@@ -13,7 +12,7 @@ import java.security.SecureRandom
 /**
  * @since 2022-04-13
  */
-class RsaCipherSpec {
+internal class RsaCipherSpec {
     @ParameterizedTest(name = "It should decrypt encrypted message by RSA{0} algorithm with arbitrary key pairs")
     @ValueSource(ints = [1024, 2048])
     fun `It should decrypt encrypted message by RSA algorithm with arbitrary key pairs`(modulusSize: Int) {
@@ -34,7 +33,7 @@ class RsaCipherSpec {
         val decryptedText = String(decrypted)
 
         // expect:
-        assertThat(decryptedText, `is`(plainText))
+        decryptedText shouldBe plainText
     }
 
     private fun testKeyPairGenerator() = KeyPairGenerator.getInstance(RsaCipher.ALGORITHM)

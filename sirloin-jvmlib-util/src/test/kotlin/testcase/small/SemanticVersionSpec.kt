@@ -6,8 +6,7 @@ package testcase.small
 
 import com.sirloin.jvmlib.util.SemanticVersion
 import com.sirloin.jvmlib.util.SemanticVersionParser
-import org.hamcrest.CoreMatchers.`is`
-import org.hamcrest.MatcherAssert.assertThat
+import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertAll
 
@@ -17,7 +16,7 @@ import org.junit.jupiter.api.assertAll
  *
  * @since 2022-06-18
  */
-class SemanticVersionSpec {
+internal class SemanticVersionSpec {
     @Test
     fun `Only version core is displayed if there are no metadata`() {
         // given:
@@ -64,8 +63,8 @@ class SemanticVersionSpec {
 
     private fun String.isExpectedTo(expected: String) {
         assertAll(
-            { assertThat(this, `is`(expected)) },
-            { assertThat(SemanticVersionParser.isMatchesToSemanticVersion(this), `is`(true)) },
+            { this shouldBe expected },
+            { SemanticVersionParser.isMatchesToSemanticVersion(this) shouldBe true },
         )
     }
 }
