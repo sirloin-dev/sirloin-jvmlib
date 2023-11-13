@@ -4,16 +4,10 @@
  */
 package test.com.sirloin.util.random
 
-import kotlin.reflect.KClass
-
-fun <T : Enum<*>> randomEnum(klass: KClass<T>, acceptFn: ((T) -> Boolean)? = null): T {
-    val enums = klass.java.enumConstants
+inline fun <reified T : Enum<T>> randomEnum(acceptFn: ((T) -> Boolean) = { true }): T {
+    val enums = enumValues<T>()
 
     var chosen = enums.random()
-    if (acceptFn == null) {
-        return chosen
-    }
-
     while (!acceptFn(chosen)) {
         chosen = enums.random()
     }

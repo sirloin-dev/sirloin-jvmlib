@@ -16,7 +16,7 @@ internal class RandomInstanceUtilsTest {
     @Test
     fun `Returns any instance of given enum where no acceptFn`() {
         // then:
-        val enumValue = randomEnum(GenericEnum::class)
+        val enumValue = randomEnum<GenericEnum>()
 
         // expect:
         enumValue shouldBeOneOf (GenericEnum.values().asList())
@@ -25,7 +25,7 @@ internal class RandomInstanceUtilsTest {
     @Test
     fun `Returns any instance of given enum which conforms acceptFn`() {
         // then:
-        val enumValue = randomEnum(GenericEnum::class) { it != GenericEnum.UNDEFINED }
+        val enumValue = randomEnum<GenericEnum> { it != GenericEnum.UNDEFINED }
 
         // expect:
         enumValue shouldNotBe GenericEnum.UNDEFINED
