@@ -4,6 +4,7 @@
  */
 package com.sirloin.jvmlib.util
 
+import kotlin.enums.EnumEntries
 import kotlin.reflect.KProperty
 
 /**
@@ -28,7 +29,7 @@ import kotlin.reflect.KProperty
  *
  * @since 07-07-2022
  */
-inline fun <reified T> Array<T>.firstOrThrow(field: KProperty<*>, value: Any?): T {
+inline fun <reified T : Enum<T>> EnumEntries<T>.firstOrThrow(field: KProperty<*>, value: Any?): T {
     return this.firstOrNull { enumElement ->
         T::class.java.getDeclaredField(field.name).also { it.isAccessible = true }.get(enumElement) == value
     } ?: throw IllegalArgumentException("Cannot convert '${value}' as ${T::class.simpleName}")

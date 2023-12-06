@@ -18,7 +18,7 @@ internal class EnumUtilsTest {
         val expected = Foo.from("A")
 
         // then:
-        val actual = Foo.values().firstOrThrow(Foo::code, "A")
+        val actual = Foo.entries.firstOrThrow(Foo::code, "A")
 
         // expect:
         actual shouldBe expected
@@ -30,7 +30,7 @@ private enum class Foo(val code: Any) {
     BAR_A("A");
 
     companion object {
-        fun from(code: Any?) = values().firstOrNull { it.code == code }
+        fun from(code: Any?): Foo = entries.firstOrNull { it.code == code }
             ?: throw IllegalArgumentException("Cannot convert '${code}' as ${Foo::class.simpleName}")
     }
 }
