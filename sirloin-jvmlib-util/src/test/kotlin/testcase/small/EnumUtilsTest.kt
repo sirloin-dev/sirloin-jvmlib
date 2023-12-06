@@ -23,6 +23,18 @@ internal class EnumUtilsTest {
         // expect:
         actual shouldBe expected
     }
+
+    @Test
+    fun `firstOrThrow accepts custom predicate`() {
+        // given:
+        val expected = Foo.BAR_A
+
+        // then:
+        val actual = Foo.entries.firstOrThrow(Foo::code) { it.toString().lowercase() == "a" }
+
+        // expect:
+        actual shouldBe expected
+    }
 }
 
 private enum class Foo(val code: Any) {

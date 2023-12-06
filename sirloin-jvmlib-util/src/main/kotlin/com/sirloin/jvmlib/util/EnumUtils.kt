@@ -34,3 +34,33 @@ inline fun <reified T : Enum<T>> EnumEntries<T>.firstOrThrow(field: KProperty<*>
         T::class.java.getDeclaredField(field.name).also { it.isAccessible = true }.get(enumElement) == value
     } ?: throw IllegalArgumentException("Cannot convert '${value}' as ${T::class.simpleName}")
 }
+
+/**
+ * Works as the same as [firstOrThrow]; however this function is for some situations where basic comparing by value
+ * does not meet the requirements. For example:
+ *
+ * ```
+ * enum class Month(val code: String) {
+ *     JANUARY("January"),
+ *     FEBRUARY("February");
+ * }
+ *
+ * // This will throw IllegalArgumentException:
+ * Month.values().firstOrThrow(Month::code, "january")
+ *
+ * // This will work:
+ * Month.values().firstOrThrow(Month::code) { it.toString().lowercase() == "january" }
+ * ```
+ */
+inline fun <reified T : Enum<T>> EnumEntries<T>.firstOrThrow(
+    field: KProperty<*>,
+    predicate: (Any) -> Boolean
+): T {
+    val values = ArrayList<Any>()
+
+    return this.firstOrNull { enumElement ->
+        val value = T::class.java.getDeclaredField(field.name).also { it.isAccessible = true }.get(enumElement)
+        values.add(value)
+        predicate(value)
+    } ?: throw IllegalArgumentException("None of any values${values} matches the predicate.")
+}
