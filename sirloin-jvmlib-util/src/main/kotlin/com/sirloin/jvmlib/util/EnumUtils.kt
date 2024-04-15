@@ -46,10 +46,10 @@ inline fun <reified T : Enum<T>> EnumEntries<T>.firstOrThrow(field: KProperty<*>
  * }
  *
  * // This will throw IllegalArgumentException:
- * Month.values().firstOrThrow(Month::code, "january")
+ * Month.entries.firstOrThrow(Month::code, "january")
  *
  * // This will work:
- * Month.values().firstOrThrow(Month::code) { it.toString().lowercase() == "january" }
+ * Month.entries.firstOrThrow(Month::code) { it.toString().lowercase() == "january" }
  * ```
  */
 inline fun <reified T : Enum<T>> EnumEntries<T>.firstOrThrow(

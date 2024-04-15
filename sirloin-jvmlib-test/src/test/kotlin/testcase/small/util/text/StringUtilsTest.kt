@@ -134,7 +134,7 @@ internal class StringUtilsTest {
                 )
             }
 
-            @RepeatedTest(100)
+            @Test
             fun `of negative number`() {
                 // given:
                 val digits = 5

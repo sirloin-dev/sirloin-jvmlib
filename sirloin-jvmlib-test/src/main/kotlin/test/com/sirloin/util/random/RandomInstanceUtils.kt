@@ -4,12 +4,19 @@
  */
 package test.com.sirloin.util.random
 
-inline fun <reified T : Enum<T>> randomEnum(acceptFn: ((T) -> Boolean) = { true }): T {
-    val enums = enumValues<T>()
+inline fun <reified T : Enum<T>> randomEnum(acceptFn: ((T) -> Boolean) = { true }): T =
+    enumValues<T>().randomButOnly(acceptFn)
 
-    var chosen = enums.random()
+inline fun <T> Array<T>.randomButOnly(acceptFn: (T) -> Boolean): T =
+    loopUntil({ random() }, acceptFn)
+
+inline fun <T> Collection<T>.randomButOnly(acceptFn: (T) -> Boolean): T =
+    loopUntil({ random() }, acceptFn)
+
+inline fun <T> loopUntil(valueProvider: () -> T, acceptFn: (T) -> Boolean): T {
+    var chosen = valueProvider()
     while (!acceptFn(chosen)) {
-        chosen = enums.random()
+        chosen = valueProvider()
     }
 
     return chosen

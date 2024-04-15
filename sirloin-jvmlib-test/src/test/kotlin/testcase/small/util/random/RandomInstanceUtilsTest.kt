@@ -19,7 +19,7 @@ internal class RandomInstanceUtilsTest {
         val enumValue = randomEnum<GenericEnum>()
 
         // expect:
-        enumValue shouldBeOneOf (GenericEnum.values().asList())
+        enumValue shouldBeOneOf (GenericEnum.entries.toList())
     }
 
     @Test
